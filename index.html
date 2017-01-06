@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<style>
+		body { 
+			margin: 0; 
+			padding: 0; 
+			border-top: thin solid rgba(178, 178, 178, 0.9); 
+			border-bottom: thin solid rgba(178, 178, 178, 0.9); 
+		}
+		
+		#buttonContent {
+			margin: 5px;
+			padding: 10px;
+			font-family: Times;
+			background-color: rgb(250,250,250);
+			border-radius: 5px;
+			width: 95%;
+			height: 100%;
+			border: none;
+			
+		}
+		
+		#buttonContent:hover {
+			border: none;
+			background-color: rgb(215,215,215);
+			cursor: pointer;
+		}
+		
+		#buttonContent:active {
+			border: none;
+			outline: 0;
+			outline-style: none;
+			outline-width: 0;
+			
+		}
+					
+		#buttonContent .ddLogo{
+			float: left;
+			text-align: center;
+			cursor: pointer;
+			height: auto;
+			padding: 5px;
+		}
+		
+		.ddLogo, .icon{
+			margin: 0px;
+			padding: 0px;
+			height:40px;
+			width:40px;
+		}
+		
+		.ddLogo, .icontext{
+			margin: 0px;
+			padding: 0px;
+			width: auto;
+			color: rgba(0,0,0,0.75);
+		}
+		
+		#buttonContent .buttonText {
+			float:right;
+			display: inline-block
+			padding: 5px;
+			margin: 0;
+			font-size: 14px;
+			font-family: Times;
+			
+			color:rgba(0,0,0,0.75);
+			cursor:pointer;
+			
+		}
+		
+	</style>
+</head>
+	
+<body>
+	
+	
+	<div id="mainContainer">
+	<!-- The content of the buttons includes and image, an image text, and a button text -->	
+		<button  id="buttonContent" onclick="genPDF()">
+			<div class="ddLogo">
+				<img class="icon" src="https://goo.gl/ejbGvO">
+				<div class="iconText">Generate</div>
+			</div>
+			
+			<div class="buttonText">
+				<p>Generate PDF of current View</p>
+			</div>
+		</button>
+	
+	</div>
+	
+	
+	<!-- Scripts-->
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.debug.js"></script>
+	<script src="http://www.cloudformatter.com/Resources/Pages/CSS2Pdf/Script/xepOnline.jqPlugin.js"></script>
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+	<script src="html2canvas.js"></script>
+	<script src="html2canvas.svg.js"></script>
+
+	
+	<script> 
+		dronedeploy.onload(function(){
+			console.log('DroneDeploy Api: ', dronedeploy);
+		});
+		
+		function genPDF() {
+			html2canvas(document.body,{
+				onrendered: function (canvas) {
+					var img = canvas.toDataURL("Image/png");
+					var doc = new jsPDF();
+					doc.addImage(img, 'JPEG',20,20);
+					doc.save('test.pdf');
+					
+				}
+			})
+		}
+		
+		
+		$('#buttonContent').click(function(){
+			var originalText = $(".iconText").text(),
+			i  = 0;
+			setInterval(function() {
+				$(".iconText").append(".");
+				i++;
+				if(i == 4){
+					$(".iconText").html(originalText);
+					i = 0;
+				}
+			}, 500);
+		});
+		
+	</script>
+	
+</body>
+	
+</html>
